@@ -60,15 +60,28 @@ export default {
 .v-select-menu {
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
   background-color: white;
   position: absolute;
   left: 0;
-  top: 50px;
+  top: 40px;
   width: 100%;
   border: 1px solid black;
   max-height: 300px;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.v-select-menu::-webkit-scrollbar {
+  width: 5px;
+  margin-right: 5px;
+}
+
+.v-select-menu::-webkit-scrollbar-track {
+  background: aliceblue;
+}
+
+.v-select-menu::-webkit-scrollbar-thumb {
+  background-color: blue;
 }
 
 .v-select-item {
