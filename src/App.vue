@@ -13,8 +13,8 @@
 <script>
 import VBtn from './components/UI/VBtn.vue'
 import Header from './components/Header.vue'
-import TableItem from './components/table/TableItem.vue'
-import UsersTable from './components/table/UsersTable.vue'
+import TableItem from './components/users/TableItem.vue'
+import UsersTable from './components/users/UsersTable.vue'
 
 export default {
   name: 'App',
@@ -35,8 +35,8 @@ export default {
   },
   watch: {
     users: {
-      handler: function (val) {
-        localStorage.setItem('users', JSON.stringify(val))
+      handler: function (updatedList) {
+        localStorage.setItem('users', JSON.stringify(updatedList))
       },
       deep: true
     }
@@ -44,7 +44,7 @@ export default {
   methods: {
     addUser ({user, parent}) {
       if (parent) {
-        parent.subusers.push(user)
+        parent.subordinates.push(user)
       } else {
         this.users.push(user)
       }
@@ -53,19 +53,22 @@ export default {
     prepare (value) {
       return value.replace(/[^a-zа-яё0-9\s]/gi, '').replaceAll(' ', '')
     },
-    deepSort (user, param) {
-      user.subusers = user.subusers.sort((a, b) => this.prepare(a[param]).localeCompare(this.prepare(b[param])))
-      user.subusers.forEach(subuser => this.deepSort(subuser, param))
+    sortSubordinates (user, param) {
+      user.subordinates = user.subordinates.sort((a, b) => this.prepare(a[param]).localeCompare(this.prepare(b[param])))
+      user.subordinates.forEach(subordinate => this.sortSubordinates(subordinate, param))
     },
     sortUsers (param) {
       const sorted = this.users.sort((a, b) => this.prepare(a[param]).localeCompare(this.prepare(b[param])))
-      sorted.forEach(user => this.deepSort(user, param))
+      sorted.forEach(user => this.sortSubordinates(user, param))
       this.sortedUsers = sorted
+    },
+    getUsers () {
+      this.users = JSON.parse(localStorage.getItem('users')) || []
+      this.sortedUsers = JSON.parse(JSON.stringify(this.users))
     }
   },
   mounted () {
-    this.users = JSON.parse(localStorage.getItem('users')) || []
-    this.sortedUsers = JSON.parse(JSON.stringify(this.users))
+    this.getUsers()
   }
 }
 </script>

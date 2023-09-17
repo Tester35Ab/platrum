@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     openRow () {
-      if (this.user.subusers.length) {
+      if (this.user.subordinates.length) {
         this.rowOpened = !this.rowOpened
       }
     }
@@ -24,16 +24,16 @@ export default {
 
 <template>
   <div class="table-box">
-    <div class="table-item item" :class="{'openable': user.subusers.length, 'open': rowOpened}">
+    <div class="table-item item" :class="{'openable': user.subordinates.length, 'open': rowOpened}">
       <div class="name" @click="openRow">
-        <ArrowDown v-if="user.subusers.length"/>
+        <ArrowDown v-if="user.subordinates.length"/>
         <p>{{ user.name }}</p>
       </div>
       <div class="phone">
         <p>{{ user.phone }}</p>
       </div>
     </div>
-    <table-item v-for="subuser in user.subusers" :key="subuser.id" :user="subuser" v-if="rowOpened" class="children"/>
+    <table-item v-for="subordinate in user.subordinates" :key="subordinate.id" :user="subordinate" v-if="rowOpened" class="children"/>
   </div>
 </template>
 

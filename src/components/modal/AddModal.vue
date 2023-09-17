@@ -26,8 +26,7 @@ export default {
     prepareUsers (users) {
       users.forEach(user => {
         this.usersForSelect.push(user)
-
-        this.prepareUsers(user.subusers)
+        this.prepareUsers(user.subordinates)
       })
     },
     addUser () {
@@ -36,7 +35,7 @@ export default {
           id: Math.floor(Math.random() * (1000 - 1 + 1) + 1),
           name: this.name,
           phone: this.phone,
-          subusers: []
+          subordinates: []
         },
         parent: this.selectedUser
       })
