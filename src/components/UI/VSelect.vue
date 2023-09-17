@@ -73,7 +73,6 @@ export default {
 
 .v-select-menu::-webkit-scrollbar {
   width: 5px;
-  margin-right: 5px;
 }
 
 .v-select-menu::-webkit-scrollbar-track {
